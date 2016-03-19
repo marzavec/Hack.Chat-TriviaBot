@@ -1,0 +1,29 @@
+{
+  "name": "rankBot",
+  "version": "1.0.0",
+  "description": "Coding Rank Bot for Hack.Chat based rooms",
+  "main": "rankBot.js",
+  "dependencies": {
+    "ws": "^0.7.2"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/marzavec/Hack.Chat-TriviaBot"
+  },
+  "keywords": [
+    "rank",
+    "trivia",
+    "chat",
+    "bot"
+  ],
+  "author": {
+    "name": "Marzavec",
+    "email": "admin@marzavec.com",
+    "url": "https://github.com/marzavec/"
+  },
+  "license": "MIT License (MIT)",
+  "bugs": {
+    "url": "https://github.com/marzavec/Hack.Chat-TriviaBot/issues"
+  },
+  "homepage": "https://github.com/marzavec/Hack.Chat-TriviaBot"
+}
