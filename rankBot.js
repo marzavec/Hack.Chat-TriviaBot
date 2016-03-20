@@ -192,9 +192,9 @@ var game = {
 		this.questionID = data.id;
 		this.questionPoints = data.points;
 		this.questionCat = data.cat;
-		this.questionAnswer = data.answer;
+		this.questionAnswer = JSON.parse(data.answer);
 		
-		rankBot.say("@" + rankBot.engagedWith.nick + ", for " + colorize(String(data.points), 'green') + " points, " + colorize(data.tta, 'red') + " seconds to answer! " + data.question);
+		rankBot.say("@" + rankBot.engagedWith.nick + "; the category is: " + data.cat + " & for " + colorize(String(data.points), 'green') + " points, " + colorize(data.tta, 'red') + " seconds to answer!\n" + data.question);
 		
 		this.questionTimeout = setTimeout(function(){ game.questionTimedOut(); }, data.tta * 1000);
 	},
@@ -202,7 +202,11 @@ var game = {
 	gaveAnswer: function(data){
 		clearTimeout(this.questionTimeout);
 		
-		if(data == this.questionAnswer){
+		var correct = false;
+		
+		for(var i = 0, j = this.questionAnswer.length; i < j; i++) if(data == this.questionAnswer[i]) correct = true;
+		
+		if(correct){
 			rankBot.say("@" + rankBot.engagedWith.nick + ", " + colorize("correct", 'green') + "! Awarded " + colorize(String(this.questionPoints), 'green') + " points. Total: " + String(game.userPoints + game.questionPoints));
 			
 			this.success();
