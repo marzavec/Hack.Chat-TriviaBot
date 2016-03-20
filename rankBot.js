@@ -202,6 +202,15 @@ var game = {
 	gaveAnswer: function(data){
 		clearTimeout(this.questionTimeout);
 		
+		if(data == "pass"){
+			this.questionPoints = Math.floor(this.questionPoints * 0.3);
+			
+			rankBot.say("@" + rankBot.engagedWith.nick + ", no one likes a quitter. . . Lost " + colorize(String(this.questionPoints), 'green') + " points. Total: " + String(game.userPoints - game.questionPoints));
+			
+			this.failure();
+			return;
+		}
+		
 		var correct = false;
 		
 		for(var i = 0, j = this.questionAnswer.length; i < j; i++) if(data == this.questionAnswer[i]) correct = true;
@@ -305,7 +314,7 @@ var rankBot = {
 	},
 	
 	outputHelp: function(data, nick, trip){
-		this.say("@" + nick + "; use -h with any command for more info.\nCommands: " + this.cmdPre + "help, " + this.cmdPre + "myrank, " + this.cmdPre + "rankof, " + this.cmdPre + "leaders, " + this.cmdPre + "categories, " + this.cmdPre + "quizme " + this.cmdPre + "bridge " + this.cmdPre + "contribute");
+		this.say("@" + nick + "; use -h with any command for more info.\nCommands: " + this.cmdPre + "help, " + this.cmdPre + "myrank, " + this.cmdPre + "nearme, " + this.cmdPre + "rankof, " + this.cmdPre + "leaders, " + this.cmdPre + "categories, " + this.cmdPre + "quizme " + this.cmdPre + "bridge " + this.cmdPre + "contribute");
 	},
 	
 	h: function(data, nick, trip){
@@ -342,6 +351,7 @@ var rankBot = {
 			var found = false;
 			var output = '';
 			
+			console.log(rows.length);
 			for(var i = 0, j = rows.length; i < j; i++){
 				if(rows[i].nick == nick && rows[i].trip == trip){
 					var highest = 0;
@@ -432,6 +442,51 @@ var rankBot = {
 			leaderStr = leaderStr.substring(0, leaderStr.length - 1);
 			
 			rankBot.say("@" + nick + ", top coders:\n" + leaderStr);
+		});
+	},
+	
+	nearme: function(data, nick, trip){
+		if(data[0] == '-h'){
+			this.say("@" + nick + ", " + this.cmdPre + "leaders, show top coders.");
+			return;
+		}
+		
+		var sqlQuery = "SELECT @rn:=@rn+1 AS `rank`, `trip`, `nick`, `points`, `prof` FROM ( SELECT `trip`, `nick`, `points`, `prof` FROM `points` WHERE `bridgeid` = 0 ORDER BY `points` DESC) t1 , (SELECT @rn:=0) t2";
+		sqlCon.query(sqlQuery, function(err, rows){
+			if(rows.length == 0){
+				rankBot.say("Some code dun fucked up. [LEADERS 404]");
+				return;
+			}
+			
+			var output = "";
+			var userRow = false;
+			
+			for(var i = 0, j = rows.length; i < j; i++){
+				if(rows[i].nick == nick && rows[i].trip == trip) userRow = i;
+			}
+			
+			if(userRow == false){
+				rankBot.say("@" + nick + ", you are not ranked.");
+				return;
+			}
+			
+			for(var i = userRow - 2, j = userRow + 2; i < j; i++){
+				if(typeof rows[i] !== 'undefined'){
+					var highest = 0;
+					var topCat = "";
+					rows[i].prof = JSON.parse(rows[i].prof);
+					for(var k = 0, l = rows[i].prof.length; k < l; k++){
+						if(rows[i].prof[k].points > highest){
+							highest = rows[i].prof[k].points;
+							topCat = rows[i].prof[k].cat;
+						}
+					}
+					output += 'Ranked #' + rows[i].rank + ' [' + rows[i].trip + ']' + rows[i].nick + ': ' + rows[i].points + " points - top cat: " + topCat + "\n";
+				}
+			}
+			output = output.substring(0, output.length - 1);
+			
+			rankBot.say("@" + nick + ", near you:\n" + output);
 		});
 	},
 	
