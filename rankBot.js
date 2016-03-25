@@ -255,7 +255,7 @@ var game = {
 	},
 	
 	failure: function(){
-		var sqlQuery = "UPDATE `points` SET `points` = `points` - " + this.questionPoints + " WHERE `id` = " + String(this.userID);
+		var sqlQuery = "UPDATE `points` SET `points` = `points` - 10 WHERE `id` = " + String(this.userID);
 		sqlCon.query(sqlQuery, function(err, rows){
 			sqlCon.query("UPDATE `questions` SET `fail` = `fail` + 1 WHERE `id` = " + String(this.questionID), function(err, rows){ });
 		});
