@@ -4,7 +4,8 @@
   "description": "Coding Rank Bot for Hack.Chat based rooms",
   "main": "rankBot.js",
   "dependencies": {
-    "ws": "^0.7.2"
+    "ws": "^0.7.2",
+	"mysql": ""
   },
   "repository": {
     "type": "git",
