@@ -18,4 +18,4 @@ node v5.8.0 or higher required (older versions have not been tested, but likely 
 
 or
 
-* `pm2 start rankBot.js`
+* `pm2 start main.js`
