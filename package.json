@@ -1,11 +1,11 @@
 {
   "name": "rankBot",
-  "version": "1.0.0",
+  "version": "2.0.0",
   "description": "Coding Rank Bot for Hack.Chat based rooms",
   "main": "rankBot.js",
   "dependencies": {
     "ws": "^0.7.2",
-	"mysql": ""
+	  "mysql": ""
   },
   "repository": {
     "type": "git",

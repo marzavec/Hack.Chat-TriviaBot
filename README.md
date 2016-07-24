@@ -1,14 +1,21 @@
 # Hack.Chat-TriviaBot
-Simple trivia bot for https://hack.chat/
+Trivia bot for https://hack.chat/ with persistent points tracking.
 
-# Install / Usage
-npm install ws
+[Update 07/23/2016]
+Updated framework for stability & flexibility. Laid ground work for new challenges feature.
 
-npm install mysql
+# Install
+node v5.8.0 or higher required (older versions have not been tested, but likely work).
 
-
-node rankBot.js
+* `git clone https://github.com/marzavec/Hack.Chat-TriviaBot.git`
+* `cd Hack.Chat-TriviaBot`
+* `npm install`
+* Update ./config/sqlConfig.js with sql credentials.
+* Create `rankbot` database.
+* Import ./initial_sql.sql file into your database.
+* Edit ./config/botConfig.js if needed.
+* `sudo node main.js`
 
 or
 
-pm2 start rankBot.js
+* `pm2 start rankBot.js`
