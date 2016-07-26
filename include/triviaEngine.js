@@ -94,7 +94,7 @@ triviaEngine = {
 		if(data == "pass"){
 			this.questionPoints = Math.floor(this.questionPoints * 0.3);
 
-			this.currentSocket.say("@" + this.userNick + ", no one likes a quitter. . . Lost " + colorize(String(this.questionPoints), 'green') + " points. Total: " + String(triviaEngine.userPoints - triviaEngine.questionPoints));
+			this.currentSocket.say("@" + this.userNick + ", no one likes a quitter. . . Lost " + colorize(String(this.questionPoints), 'yellow') + " points. Total: " + String(triviaEngine.userPoints - triviaEngine.questionPoints));
 
 			this.failure();
 			return;
