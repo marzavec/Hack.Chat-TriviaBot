@@ -84,13 +84,16 @@ chatEngine = {
 					return;
 				}
 
-				if(data.text.substr(0,1) == botConfig.ctrlChr){
+				if(data.text.substr(0,1) == botConfig.ctrlChr && !triviaEngine.isEngaged){
 					var cmdArray = data.text.split(' ');
 					cmdArray.socket = this;
 					cmdArray.nick = data.nick;
+
 					if(typeof data.trip !== 'undefined') cmdArray.trip = data.trip;
-					if(typeof ctrlCore[cmdArray[0].substr(1)] == 'function')
+
+					if(typeof ctrlCore[cmdArray[0].substr(1)] == 'function'){
 						ctrlCore[cmdArray[0].substr(1)](cmdArray);
+					}
 				}else if(triviaEngine.isEngaged){
 					if(data.nick == triviaEngine.userNick && data.trip == triviaEngine.userTrip){
 						triviaEngine.gaveAnswer(data.text);
