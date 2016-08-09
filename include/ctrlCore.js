@@ -61,7 +61,7 @@ ctrlCore = {
       return;
     }
 
-		var sqlQuery = "SELECT @rn:=@rn+1 AS `rank`, `trip`, `nick`, `points`, `prof` FROM (SELECT `trip`, `nick`, `points`, `prof` FROM `points` WHERE `bridgeid` = 0 ORDER BY `points` DESC) t1 , (SELECT @rn:=0) t2";
+		var sqlQuery = "SELECT @rn:=@rn+1 AS `rank`, `trip`, `nick`, `points`, `compChals`, `prof` FROM (SELECT `trip`, `nick`, `points`, `compChals`, `prof` FROM `points` WHERE `bridgeid` = 0 ORDER BY `points` DESC) t1 , (SELECT @rn:=0) t2";
 
 		sqlEngine.sqlCon.query(sqlQuery, function(err, rows){
 			if(rows.length == 0){
@@ -85,7 +85,10 @@ ctrlCore = {
 							topCat = rows[i].prof[k].cat;
 						}
 					}
-					output = 'Ranked #' + rows[i].rank + ' [' + rows[i].trip + ']' + rows[i].nick + ': ' + rows[i].points + " points - top cat: " + topCat + "\n";
+					output = 'Ranked #' + rows[i].rank + ' [' + rows[i].trip + ']' +
+                   rows[i].nick + ': ' + rows[i].points +
+                   ' points, top cat: ' + topCat +
+                   ', completed challenges: ' + rows[i].compChals + '\n';
 					found = true;
 				}
 			}
@@ -102,7 +105,7 @@ ctrlCore = {
       return;
     }
 
-    var sqlQuery = "SELECT @rn:=@rn+1 AS `rank`, `trip`, `nick`, `points`, `prof` FROM (SELECT `trip`, `nick`, `points`, `prof` FROM `points` WHERE `bridgeid` = 0 ORDER BY `points` DESC) t1 , (SELECT @rn:=0) t2";
+    var sqlQuery = "SELECT @rn:=@rn+1 AS `rank`, `trip`, `nick`, `points`, `compChals`, `prof` FROM (SELECT `trip`, `nick`, `points`, `compChals`, `prof` FROM `points` WHERE `bridgeid` = 0 ORDER BY `points` DESC) t1 , (SELECT @rn:=0) t2";
 
     sqlEngine.sqlCon.query(sqlQuery, function(err, rows){
       if(rows.length == 0){
@@ -124,7 +127,9 @@ ctrlCore = {
             catStr += rows[i].prof[k].cat + ' = ' + rows[i].prof[k].points + ', ';
           }
           catStr = catStr.substring(0, catStr.length - 2);
-          output = 'Ranked #' + rows[i].rank + ' [' + rows[i].trip + ']' + rows[i].nick + ': ' + catStr + "\n";
+          output = 'Ranked #' + rows[i].rank + ' [' + rows[i].trip + ']' +
+                    rows[i].nick + ': ' + catStr + ', completed challenges: ' +
+                    rows[i].compChals + '\n';
           found = true;
         }
       }
